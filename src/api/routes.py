@@ -47,3 +47,35 @@ def sing_up_user():
 
 
 
+# @api.route('/sign_in', methods=['POST'])
+# def sign_in_user():
+
+#     body_params = request.get_json()
+
+#     email = body_params.get("email", None)
+#     password = body_params.get("password", None)
+
+#     if email == None or password == None:
+#         return jsonify({"msg": "Bad email or password"}), 401
+
+#     user = User.query.filter_by(email=email).one_or_none()
+#     print(user.serialize())
+#     if not user or not user.check_password(password):
+#       return jsonify("Your credentials are wrong, please try again"), 401
+
+#     access_token = create_access_token(identity=user.serialize())
+
+#     return jsonify({"access_token": access_token}), 200
+
+# @api.route("/me", methods=["GET", "PUT"])
+# @jwt_required()
+# def user_profile():
+#   identity = get_jwt_identity()
+#   user = current_user(get_jwt_identity())
+
+#   return jsonify(user.serialize())
+
+
+# def current_user(identity):
+#   print(identity["id"])
+#   return User.query.get(identity["id"])
