@@ -43,7 +43,19 @@ def sing_up_user():
     db.session.add(new_user)
     db.session.commit()
     
-    return jsonify(body_request, {"msg": "New user created"}), 200
+    return jsonify(body_request), 200
+
+@api.route('/users', methods=['GET'])
+def get_users():
+    body_response = User.query.all()
+    users_list = []
+    
+    for user in body_response:
+        users_list.append(user.serialize())
+    
+    return jsonify(users_list), 200
+
+# -------------- Métod de login --------------
 
 
 
