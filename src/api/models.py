@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+# Para comprueba la contraseña
+from werkzeug.security import safe_str_cmp
 
 db = SQLAlchemy()
 
@@ -17,9 +19,6 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "name": self.name,
-            "last_name": self.last_name
-            # do not serialize the password, its a security breach
         }
         
         

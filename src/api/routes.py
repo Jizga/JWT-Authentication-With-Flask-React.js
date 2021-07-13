@@ -4,6 +4,10 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
+# Para crear el token
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
@@ -23,8 +27,6 @@ def sing_up_user():
     
     #body del POST de Postman
     body_request = request.get_json()
-    
-    print("DATOS DESDE POSTMAN --- ", body_request)
     
     #Unión con la tabla User y con los valores de las columnas que se le dan desde Postman
     # Formato de dentro del "body_request.get" es el de Postman
@@ -56,38 +58,41 @@ def get_users():
     return jsonify(users_list), 200
 
 # -------------- Métod de login --------------
+# Se usa POST porque vamos a crear un token y porque se va a coger email y contraseña, 
+# datos que no deben de ser visibles en la url por seguridad
+@api.route('/sign_in', methods=['POST'])
+def sing_in_user():
+    body_request = request.get_json()
+    
+    email_request = body_request.get("email", None)
+    password_request = body_request.get("password", None)
+    
+    # Comprobación de que el usuario existe:
+    if email_request == None or password_request == None:
+        return jsonify({"msg": "Bad email or password"}), 401
+    
+    user_checked = User.query.filter_by(email = email_request).one_or_none()
+    
+    # Comprobación email y contraseña
+    if not user_checked or not user_checked.check_password(password_request):
+        return jsonify("Your credentials are wrong, please try again"), 401
+    
+    # NUEVO TOKEN!!
+    access_token = create_access_token(identity = user_checked.serialize())
+    
+    return jsonify({"access_token": access_token}), 200
 
+# ----------- Comprobación de la identidad del usario ----------
+# En esta ruta hay que pasar el token creado antes, dentro de Postman, en "Authorization" o en el "Header"
+@api.route("/profile", methods=["GET", "PUT"])
+@jwt_required()
+def user_profile():
+  identity = get_jwt_identity()
+  user = current_user(get_jwt_identity())
 
+  return jsonify(user.serialize())
 
-# @api.route('/sign_in', methods=['POST'])
-# def sign_in_user():
-
-#     body_params = request.get_json()
-
-#     email = body_params.get("email", None)
-#     password = body_params.get("password", None)
-
-#     if email == None or password == None:
-#         return jsonify({"msg": "Bad email or password"}), 401
-
-#     user = User.query.filter_by(email=email).one_or_none()
-#     print(user.serialize())
-#     if not user or not user.check_password(password):
-#       return jsonify("Your credentials are wrong, please try again"), 401
-
-#     access_token = create_access_token(identity=user.serialize())
-
-#     return jsonify({"access_token": access_token}), 200
-
-# @api.route("/me", methods=["GET", "PUT"])
-# @jwt_required()
-# def user_profile():
-#   identity = get_jwt_identity()
-#   user = current_user(get_jwt_identity())
-
-#   return jsonify(user.serialize())
-
-
-# def current_user(identity):
-#   print(identity["id"])
-#   return User.query.get(identity["id"])
+# ----------- Comprobación de la identidad del usario ----------
+def current_user(identity):
+  print(identity["id"])
+  return User.query.get(identity["id"])
