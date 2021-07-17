@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 // URL del backend
 import { API_BASE_URL } from "../constants";
 
-export const SingUp = () => {
-	const { store, actions } = useContext(Context);
+export const SignUp = () => {
+	// Para ir al home tras habernos registrado
+	let history = useHistory();
 	const [formValue, setFormValue] = useState({
 		name: "",
 		lastName: "",
@@ -23,15 +23,8 @@ export const SingUp = () => {
 		// Para que el formulario no se envíe al iniciar la vista
 		e.preventDefault();
 
-		// Estructura del método POST de Postman:
-		// Se saca directamente del Postman
-		/*const raw = JSON.stringify({
-			name: formValue.name,
-			lastName: formValue.lastName,
-			email: formValue.email,
-			password: formValue.password
-		});*/
-
+		// Crear el nuevo usuario --->>> Se envía directamente a la DB,
+		// por eso no hace falta guardarlo en el Flux
 		const raw = JSON.stringify(formValue);
 
 		const requestOptions = {
@@ -42,11 +35,11 @@ export const SingUp = () => {
 		};
 
 		fetch(`${API_BASE_URL}/api/sign_up`, requestOptions)
-			.then(response => response.text())
+			.then(response => response.json())
 			.then(result => {
-				console("New user was created");
+				console.log("New user was created: ", result);
 				// Para ir al home tras habernos registrado
-				//history.push("/");
+				history.push("/");
 			})
 			.catch(error => console.log("error", error));
 	};
@@ -100,7 +93,7 @@ export const SingUp = () => {
 				</div>
 				<div>
 					<button type="submit" className="btn btn-success">
-						Sing up
+						Sign up
 					</button>
 				</div>
 			</form>
