@@ -45,11 +45,15 @@ export const SignUp = () => {
 	};
 
 	return (
-		<div className="container bg-warning pt-3">
-			<form onSubmit={handlerSubmit}>
-				<div className="form-grup">
-					<label htmlFor="name"> Name</label>
+		<div className="container row text-center mt-5  d-flex justify-content-center">
+			<h1 className="col-6">Sing Up</h1>
+			<form onSubmit={handlerSubmit} className="col-6 p-5 mt-3 myBox text-white">
+				<div className="form-grup row">
+					<label htmlFor="name" className="col-4">
+						Name
+					</label>
 					<input
+						className="col-6"
 						type="text"
 						name="name"
 						id="name"
@@ -58,9 +62,12 @@ export const SignUp = () => {
 						required
 					/>
 				</div>
-				<div className="form-grup">
-					<label htmlFor="lastName"> Last Name</label>
+				<div className="form-grup row mt-2">
+					<label htmlFor="lastName" className="col-4">
+						Last Name
+					</label>
 					<input
+						className="col-6"
 						type="text"
 						name="lastName"
 						id="lastName"
@@ -69,9 +76,12 @@ export const SignUp = () => {
 						required
 					/>
 				</div>
-				<div className="form-grup">
-					<label htmlFor="email"> Email</label>
+				<div className="form-grup row mt-2">
+					<label htmlFor="email" className="col-4">
+						Email
+					</label>
 					<input
+						className="col-6"
 						type="email"
 						name="email"
 						id="email"
@@ -80,9 +90,12 @@ export const SignUp = () => {
 						required
 					/>
 				</div>
-				<div className="form-grup">
-					<label htmlFor="password"> password </label>
+				<div className="form-grup row mt-2">
+					<label htmlFor="password" className="col-4">
+						password
+					</label>
 					<input
+						className="col-6"
 						type="password"
 						name="password"
 						placeholder="Enter yor password"
@@ -91,7 +104,7 @@ export const SignUp = () => {
 					/>
 				</div>
 				<div>
-					<button type="submit" className="btn btn-success">
+					<button type="submit" className="btn btn-outline-primary btn-lg btn-block  mt-4">
 						Sign up
 					</button>
 				</div>

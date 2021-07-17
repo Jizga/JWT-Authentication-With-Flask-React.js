@@ -1,3 +1,15 @@
-/* 
-    General Styles
-*/
+body{
+    background: url("../img/klipartz.com.png") black no-repeat;
+    background-size: cover;
+    background-position: bottom;
+  }
+
+.myBox{
+    margin-left: 30%;
+    background-color: rgba(15, 1, 1, 0.788);
+    border-radius: 15px;
+}
+
+h1{
+    color: rgb(223, 231, 233)!important;
+}
