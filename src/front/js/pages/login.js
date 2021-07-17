@@ -25,7 +25,7 @@ export const Login = () => {
 
 	// Ir al home una vez logueado
 	if (actions.isUserAuthentificted()) {
-		history.push("/");
+		history.push("/private");
 	}
 
 	return (

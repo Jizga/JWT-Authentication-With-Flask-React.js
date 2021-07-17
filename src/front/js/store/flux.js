@@ -1,15 +1,16 @@
 // URL del backend
 import { API_BASE_URL } from "../constants";
 
-const getState = ({ getStore, getActions, setStore }) => {
+const getState = ({ getStore, setStore }) => {
 	return {
 		store: {
-			user: null,
-			accessToken: null
+			user: null
 		},
 		actions: {
 			signInUser: userValues => {
 				const store = getStore();
+
+				let newStore;
 				let localStoreUser;
 				// Estructura del método POST de Postman:
 				// Se saca directamente del Postman
@@ -25,7 +26,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch(`${API_BASE_URL}/api/sign_in`, requestOptions)
 					.then(response => response.json())
 					.then(data => {
-						setStore({ accessToken: data["access_token"], user: data });
+						newStore = data;
+
+						setStore({ user: newStore });
 
 						localStoreUser = localStorage.setItem("store.user", JSON.stringify(store.user));
 					})
@@ -34,23 +37,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Comprobar que el usuario está logueado
 			isUserAuthentificted: () => {
 				const store = getStore();
-				return store.accessToken != null;
+				return store.user != null;
 			},
 			getUserAuthentificted: () => {
 				let logedUser = JSON.parse(localStorage.getItem("store.user"));
 
 				if (logedUser) {
+					// Rellena el store con la información del localStorage
 					setStore({ user: logedUser });
 				}
 			},
 			logOutUser: () => {
 				const store = getStore();
-
 				store.user = null;
-				localStorage.setItem("store.user", JSON.stringify(store.user));
-
-				store.accessToken = null;
-				localStorage.setItem("store.accessToken", JSON.stringify(store.accessToken));
+				localStorage.clear();
 			}
 		}
 	};

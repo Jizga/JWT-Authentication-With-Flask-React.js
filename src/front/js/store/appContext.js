@@ -22,6 +22,7 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
+			// Rellena el store con la información del localStorage
 			state.actions.getUserAuthentificted();
 		}, []);
 
