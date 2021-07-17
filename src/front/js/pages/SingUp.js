@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
+// URL del backend
+import { API_BASE_URL } from "../constants";
 
 export const SingUp = () => {
 	const { store, actions } = useContext(Context);
@@ -17,10 +19,36 @@ export const SingUp = () => {
 		setFormValue({ ...formValue, [e.target.name]: e.target.value });
 	};
 
-	console.log(formValue);
-
 	const handlerSubmit = e => {
-		console.log(e);
+		// Para que el formulario no se envíe al iniciar la vista
+		e.preventDefault();
+
+		// Estructura del método POST de Postman:
+		// Se saca directamente del Postman
+		/*const raw = JSON.stringify({
+			name: formValue.name,
+			lastName: formValue.lastName,
+			email: formValue.email,
+			password: formValue.password
+		});*/
+
+		const raw = JSON.stringify(formValue);
+
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: raw,
+			redirect: "follow"
+		};
+
+		fetch(`${API_BASE_URL}/api/sign_up`, requestOptions)
+			.then(response => response.text())
+			.then(result => {
+				console("New user was created");
+				// Para ir al home tras habernos registrado
+				//history.push("/");
+			})
+			.catch(error => console.log("error", error));
 	};
 
 	return (
