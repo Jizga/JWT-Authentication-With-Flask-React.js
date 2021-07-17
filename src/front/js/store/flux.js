@@ -7,10 +7,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: []
 		},
 		actions: {
-			singUpNewUser: userValues => {
+			signInUser: userValues => {
 				// Estructura del método POST de Postman:
 				// Se saca directamente del Postman
-				/*const raw = JSON.stringify(userValues);
+				const raw = JSON.stringify(userValues);
 
 				const requestOptions = {
 					method: "POST",
@@ -19,16 +19,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch(`${API_BASE_URL}/api/sign_up`, requestOptions)
+				fetch(`${API_BASE_URL}/api/sign_in`, requestOptions)
 					.then(response => response.json())
 					.then(result => {
-						console.log("New user was created");
-
-						usersList.push(result);
-
-						setStore({ user:  });
+						console.log("User login");
+						// El result es el token del usuario logueado
+						setStore({ user: result });
 					})
-					.catch(error => console.log("error", error));*/
+					.catch(error => console.log("error", error));
 			}
 		}
 	};

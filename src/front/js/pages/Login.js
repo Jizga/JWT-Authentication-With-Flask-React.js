@@ -1,6 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
 
 export const Login = () => {
-	return <>Hola desde pág de LOGIN</>;
+	const { actions } = useContext(Context);
+	let history = useHistory();
+
+	const [formValue, setFormValue] = useState({
+		email: "",
+		password: ""
+	});
+
+	//Función para recoger los cambios en los inputs
+	const inputHandelChange = e => {
+		setFormValue({ ...formValue, [e.target.name]: e.target.value });
+	};
+
+	const handlerSubmit = e => {
+		// Para que el formulario no se envíe al iniciar la vista
+		e.preventDefault();
+
+		actions.signInUser(formValue);
+
+		history.push("/");
+	};
+
+	return (
+		<div className="container bg-warning pt-3">
+			<form onSubmit={handlerSubmit}>
+				<div className="form-grup">
+					<label htmlFor="email"> Email</label>
+					<input
+						t
+						ype="email"
+						name="email"
+						id="email"
+						placeholder="example@gamil.com"
+						onChange={inputHandelChange}
+						required
+					/>
+				</div>
+				<div className="form-grup">
+					<label htmlFor="password"> password </label>
+					<input
+						type="password"
+						name="password"
+						placeholder="Enter yor password"
+						onChange={inputHandelChange}
+						required
+					/>
+				</div>
+				<div>
+					<button type="submit" className="btn btn-success">
+						Sign in
+					</button>
+				</div>
+			</form>
+		</div>
+	);
 };
