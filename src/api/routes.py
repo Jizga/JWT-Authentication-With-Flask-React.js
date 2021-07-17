@@ -80,7 +80,7 @@ def sing_in_user():
     # NUEVO TOKEN!!
     access_token = create_access_token(identity = user_checked.serialize())
     
-    return jsonify({"access_token": access_token}), 200
+    return jsonify({"access_token": access_token, "user": user_checked.serialize()}), 200
 
 # ----------- Comprobación de la identidad del usario ----------
 # En esta ruta hay que pasar el token creado antes, dentro de Postman, en "Authorization" o en el "Header"

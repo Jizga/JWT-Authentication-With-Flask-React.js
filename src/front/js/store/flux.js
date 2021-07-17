@@ -4,7 +4,8 @@ import { API_BASE_URL } from "../constants";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			user: []
+			user: null,
+			accessToken: null
 		},
 		actions: {
 			signInUser: userValues => {
@@ -21,12 +22,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(`${API_BASE_URL}/api/sign_in`, requestOptions)
 					.then(response => response.json())
-					.then(result => {
+					.then(data => {
 						console.log("User login");
-						// El result es el token del usuario logueado
-						setStore({ user: result });
+						console.log(data);
+						setStore({ accessToken: data["access_token"], user: data });
 					})
 					.catch(error => console.log("error", error));
+			},
+			// Comprobar que el usuario está logueado
+			isUserAuthentificted: () => {
+				const store = getStore();
+				return store.accessToken != null;
 			}
 		}
 	};

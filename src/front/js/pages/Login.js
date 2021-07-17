@@ -19,11 +19,15 @@ export const Login = () => {
 	const handlerSubmit = e => {
 		// Para que el formulario no se envíe al iniciar la vista
 		e.preventDefault();
-
+		// Función de logueo
 		actions.signInUser(formValue);
-
-		history.push("/");
+	
 	};
+
+	// Ir al home una vez logueado
+	if (actions.isUserAuthentificted()) {
+		history.push("/");
+	}
 
 	return (
 		<div className="container bg-warning pt-3">
@@ -31,8 +35,7 @@ export const Login = () => {
 				<div className="form-grup">
 					<label htmlFor="email"> Email</label>
 					<input
-						t
-						ype="email"
+						type="email"
 						name="email"
 						id="email"
 						placeholder="example@gamil.com"
