@@ -72,8 +72,7 @@ export const SignUp = () => {
 				<div className="form-grup">
 					<label htmlFor="email"> Email</label>
 					<input
-						t
-						ype="email"
+						type="email"
 						name="email"
 						id="email"
 						placeholder="example@gamil.com"

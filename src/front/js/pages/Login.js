@@ -21,7 +21,6 @@ export const Login = () => {
 		e.preventDefault();
 		// Función de logueo
 		actions.signInUser(formValue);
-	
 	};
 
 	// Ir al home una vez logueado
